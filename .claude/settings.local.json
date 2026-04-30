@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(grep -E \"^react$|^vite$|^@vitejs\")",
+      "Bash(npx vite:*)",
+      "Bash(ls \"c:/Users/nahom/OneDrive/Documents/bittpuzzle/Kangaroo-master/\"*.exe)"
+    ]
+  }
+}
