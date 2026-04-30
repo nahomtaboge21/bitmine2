@@ -239,11 +239,11 @@ export default function ConfigPanel({ config, onChange, cmdParts, isRunning, con
           <label>Kangaroo executable</label>
           <input
             type="text"
-            placeholder="Kangaroo or ./Kangaroo or C:\path\to\Kangaroo.exe"
+            placeholder="Kangaroo.exe"
             value={config.kangarooPath}
             onChange={e => set('kangarooPath', e.target.value)}
           />
-          <div className="hint">Path to the compiled Kangaroo binary</div>
+          <div className="hint">Relative names are resolved inside <code>Kangaroo-master/</code></div>
         </div>
       </div>
 

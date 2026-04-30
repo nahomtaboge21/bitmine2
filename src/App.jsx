@@ -5,9 +5,9 @@ import ResultsPanel from './components/ResultsPanel'
 import './App.css'
 
 const DEFAULT_CONFIG = {
-  startRange: '',
-  endRange: '',
-  publicKeys: '',
+  startRange: '10000000000000000000000000000000',
+  endRange:   '1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+  publicKeys: '0233709EB11E0D4439A729F21C2C443DEDB727528229713F0065721BA8FA46F00E',
   threads: 4,
   useGpu: false,
   gpuIds: '0',
