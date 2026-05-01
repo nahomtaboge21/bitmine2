@@ -57,7 +57,7 @@ function parseArgs(cfg) {
 
 // Resolve the Kangaroo executable path
 function resolveExe(cfgPath) {
-  const DEFAULT = IS_WIN ? 'Kangaroo.exe' : 'Kangaroo'
+  const DEFAULT = IS_WIN ? 'Kangaroo.exe' : 'kangaroo'
   let name = cfgPath || DEFAULT
   if (path.isAbsolute(name)) return name
   // Check inside Kangaroo-master first
@@ -182,7 +182,10 @@ const server = http.createServer((req, res) => {
 
     // POST /api/stop
     if (req.method === 'POST' && req.url === '/api/stop') {
-      if (currentProcess) { currentProcess.kill(); currentProcess = null }
+      if (currentProcess) {
+      try { currentProcess.kill('SIGTERM') } catch (_) {}
+      currentProcess = null
+    }
       broadcast({ type: 'status', data: 'stopped' })
       res.writeHead(200)
       return res.end(JSON.stringify({ ok: true }))
