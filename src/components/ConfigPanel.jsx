@@ -1,17 +1,44 @@
+function puzzleRange(n) {
+  const start = (2n ** BigInt(n - 1)).toString(16).toUpperCase()
+  const end   = (2n ** BigInt(n) - 1n).toString(16).toUpperCase()
+  return { start, end }
+}
+
+const PUZZLES = Array.from({ length: 160 }, (_, i) => i + 1)
+
 export default function ConfigPanel({ config, onChange, isRunning, connected, onRun, onStop }) {
   const set = (key, val) => onChange(prev => ({ ...prev, [key]: val }))
 
+  function selectPuzzle(n) {
+    if (!n) return
+    const { start, end } = puzzleRange(Number(n))
+    onChange(prev => ({ ...prev, startRange: start, endRange: end, puzzle: Number(n) }))
+  }
+
   return (
     <>
-      {/* ── Input ── */}
+      {/* ── Range ── */}
       <div className="section">
         <div className="section-title">Range</div>
+
+        <div className="field">
+          <label>Puzzle #</label>
+          <select
+            value={config.puzzle || ''}
+            onChange={e => selectPuzzle(e.target.value)}
+          >
+            <option value="">— select puzzle —</option>
+            {PUZZLES.map(n => (
+              <option key={n} value={n}>Puzzle {n} (2^{n-1} – 2^{n}−1)</option>
+            ))}
+          </select>
+        </div>
 
         <div className="field">
           <label>Start (hex)</label>
           <input
             type="text"
-            placeholder="10000000000000000000000000000000"
+            placeholder="1"
             value={config.startRange}
             onChange={e => set('startRange', e.target.value)}
             spellCheck={false}
