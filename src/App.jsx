@@ -11,45 +11,11 @@ const DEFAULT_CONFIG = {
   threads: 4,
   useGpu: false,
   gpuIds: '0',
-  gridSize: '',
-  dpBits: '',
-  maxSteps: '',
   outputFile: 'result.txt',
-  workFile: '',
-  loadWorkFile: '',
-  workInterval: 300,
-  saveKangaroos: false,
   mode: 'standalone',
-  serverPort: 17403,
-  serverIp: '',
-  kangarooPath: 'Kangaroo',
+  kangarooPath: 'kangaroo',
 }
 
-function buildCommand(cfg) {
-  const parts = [cfg.kangarooPath || 'Kangaroo']
-  if (cfg.threads !== '' && cfg.threads >= 0) parts.push(`-t ${cfg.threads}`)
-  if (cfg.dpBits) parts.push(`-d ${cfg.dpBits}`)
-  if (cfg.useGpu) {
-    parts.push('-gpu')
-    if (cfg.gpuIds) parts.push(`-gpuId ${cfg.gpuIds}`)
-    if (cfg.gridSize) parts.push(`-g ${cfg.gridSize}`)
-  }
-  if (cfg.outputFile) parts.push(`-o ${cfg.outputFile}`)
-  if (cfg.loadWorkFile) parts.push(`-i ${cfg.loadWorkFile}`)
-  if (cfg.workFile) parts.push(`-w ${cfg.workFile}`)
-  if (cfg.workFile && cfg.workInterval) parts.push(`-wi ${cfg.workInterval}`)
-  if (cfg.saveKangaroos && cfg.workFile) parts.push('-ws')
-  if (cfg.maxSteps) parts.push(`-m ${cfg.maxSteps}`)
-  if (cfg.mode === 'server') {
-    parts.push('-s')
-    if (cfg.serverPort && cfg.serverPort !== 17403) parts.push(`-sp ${cfg.serverPort}`)
-  } else if (cfg.mode === 'client') {
-    if (cfg.serverIp) parts.push(`-c ${cfg.serverIp}`)
-    if (cfg.serverPort && cfg.serverPort !== 17403) parts.push(`-sp ${cfg.serverPort}`)
-  }
-  parts.push('input.txt')
-  return parts
-}
 
 function classifyLine(text) {
   const t = text.toLowerCase()
@@ -159,8 +125,6 @@ export default function App() {
     setJobStatus('idle')
   }
 
-  const cmdParts = buildCommand(config)
-
   return (
     <div className="app">
       <header className="app-header">
@@ -184,7 +148,6 @@ export default function App() {
           <ConfigPanel
             config={config}
             onChange={setConfig}
-            cmdParts={cmdParts}
             isRunning={isRunning}
             connected={connected}
             onRun={handleRun}
